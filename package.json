@@ -1,6 +1,6 @@
 {
-  "name": "nextscript",
-  "version": "0.0.5",
+  "name": "@engineerapart/nextscript",
+  "version": "0.0.6",
   "description": "A custom Next script loader for Next.js. Replaces the built-in NextScript component and allows you to apply polyfill pre-loading and business logic.",
   "main": "dist/nextscript.umd.js",
   "module": "dist/nextscript.es5.js",
