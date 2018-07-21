@@ -1,6 +1,8 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@engineerapart/nextscript.svg?style=for-the-badge)](https://www.npmjs.com/package/@engineerapart/nextscript)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@engineerapart/nextscript.svg?style=for-the-badge)](https://www.npmjs.com/package/@engineerapart/nextscript)
 [![npm](https://img.shields.io/npm/l/@engineerapart/nextscript.svg?style=for-the-badge)](https://www.npmjs.com/package/@engineerapart/nextscript)
+![David](https://img.shields.io/david/engineerapart/nextscript.svg?style=for-the-badge)
+![David](https://img.shields.io/david/dev/engineerapart/nextscript.svg?style=for-the-badge)
+
 
 # NextScript 💠
 
