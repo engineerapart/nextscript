@@ -51,7 +51,6 @@ export class NextScript extends React.Component<NextScriptProps> {
   };
 
   public static defaultProps = {
-    nonce: '',
     allowUserMonitoring: true,
     minify: true,
     preLoadScripts: [],
@@ -159,10 +158,10 @@ export class NextScript extends React.Component<NextScriptProps> {
       // const isAsync = s.async ? `async: ${s.async}` : undefined;
       // const nonce = s.nonce ? `nonce: '${s.nonce}'` : undefined;
       // const id = s.id ? `id: '${s.id}'` : undefined;
-      // return `{ ${[src, isAsync, nonce, id].filter(Boolean).join(', ')} }`;
+      // return `{ ${[src, async: isAsync, nonce, id].filter(Boolean).join(', ')} }`;
       const entry = {
         src: s.src,
-        isAsync: s.async || undefined,
+        async: s.async || undefined,
         nonce: s.nonce || nonce || undefined,
         id: s.id || undefined,
       };
