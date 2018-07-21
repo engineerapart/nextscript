@@ -1,4 +1,4 @@
-# NextScript
+# NextScript 💠
 
 This project is not-so-cleverly named after the [export of the same name in the amazing Next.js framework](https://github.com/zeit/next.js/blob/canary/server/document.js#L126).
 
