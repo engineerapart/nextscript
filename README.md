@@ -70,7 +70,7 @@ import Document, { Head, Main } from 'next/document';
 
 const features = [
   FeaturePolyfills.FETCH,
-  FeaturePolyfills.CustomEvent,
+  FeaturePolyfills.CUSTOMEVENT,
   {
     test: `('entries' in Array.prototype)`,
     feature: 'Array.prototype.entries',
