@@ -30,7 +30,7 @@ export const generateFeatureChecks = (features: PolyfillDefinition[] = []) => {
 
 export const featureDetect = ({ scripts, minify = true, allowUserMonitoring = true, useFeatureDetection = true, features = [] }: FeatureDetectProps) => {
   const flags = `gated${useFeatureDetection ? ',always' : ''}`;
-  const ua = useFeatureDetection ? '&ua=chrome/67.0.0' : ''; // latest chrome.
+  const ua = useFeatureDetection ? '&ua=chrome/69.0.0' : ''; // latest chrome.
 
   return `
   var _nextscript_feats = [];
