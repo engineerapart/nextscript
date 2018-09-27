@@ -60,79 +60,53 @@ export class NextScript extends React.Component<NextScriptProps> {
     preloadPolyfills: true,
   };
 
-  public getChunkScript(filename: string, additionalProps: any = {}): ScriptEntry[] {
-    const { __NEXT_DATA__, buildManifest } = this.context._documentProps;
-    const { assetPrefix } = __NEXT_DATA__; // , buildId
-
-    const files = buildManifest[filename];
-
-    return files.map((file: string) => ({
-      src: `${assetPrefix}/_next/${file}`,
+  public getDynamicChunks(): ScriptEntry[] {
+    const { dynamicImports, assetPrefix } = this.context._documentProps;
+    return dynamicImports.map((bundle: { file: string }) => ({
+      key: bundle.file,
+      src: `${assetPrefix}/_next/${bundle.file}`,
+      async: true,
       nonce: this.props.nonce,
-      async: additionalProps.async,
     }));
   }
 
-  public getScripts() {
-    const { dev } = this.context._documentProps;
-    if (dev) {
-      return [
-        ...this.getChunkScript('manifest.js'),
-        ...this.getChunkScript('main.js'),
-      ];
+  public getScripts(): ScriptEntry[] {
+    const { assetPrefix, files } = this.context._documentProps;
+    if (!files || files.length === 0) {
+      return [];
     }
 
-    // In the production mode, we have a single asset with all the JS content.
-    // So, we can load the script with async
-    return [...this.getChunkScript('main.js', { async: true })];
+    return files.map((file: string) => {
+      // Only render .js files here
+      if (!/\.js$/.exec(file)) {
+        return null;
+      }
+
+      return {
+        key: file,
+        src: `${assetPrefix}/_next/${file}`,
+        nonce: this.props.nonce,
+        async: true,
+      };
+    }).filter(Boolean) as ScriptEntry[];
   }
 
-  public getDynamicChunks(): ScriptEntry[] {
-    const { chunks, __NEXT_DATA__ } = this.context._documentProps;
-    const { assetPrefix } = __NEXT_DATA__;
-
-    return chunks.filenames.map((chunk: string) => ({
-      src: `${assetPrefix}/_next/webpack/chunks/${chunk}`,
-      nonce: this.props.nonce,
-      async: true,
-    }));
-  }
-
-  public getNextDataScript() {
-    const { __NEXT_DATA__, chunks } = this.context._documentProps;
+  public static getInlineScriptSource(documentProps: any) {
+    const { __NEXT_DATA__ } = documentProps;
     const { page, pathname } = __NEXT_DATA__;
-    __NEXT_DATA__.chunks = chunks.names;
-
-    return `
-      __NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)}
-      module={}
-      __NEXT_LOADED_PAGES__ = []
-      __NEXT_LOADED_CHUNKS__ = []
-      __NEXT_REGISTER_PAGE = function (route, fn) {
-        __NEXT_LOADED_PAGES__.push({ route: route, fn: fn })
-      }
-      __NEXT_REGISTER_CHUNK = function (chunkName, fn) {
-        __NEXT_LOADED_CHUNKS__.push({ chunkName: chunkName, fn: fn })
-      }
-      ${page === '_error' && `
-      __NEXT_REGISTER_PAGE(${htmlescape(pathname)}, function() {
-          var error = new Error('Page does not exist: ${htmlescape(pathname)}')
-          error.statusCode = 404
-          return { error: error }
-        })
-      `}
-    `;
+    // tslint:disable-next-line
+    return `__NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)};__NEXT_LOADED_PAGES__=[];__NEXT_REGISTER_PAGE=function(r,f){__NEXT_LOADED_PAGES__.push([r, f])}${page === '/_error' ? `;__NEXT_REGISTER_PAGE(${htmlescape(pathname)},function(){var e = new Error('Page does not exist: ${htmlescape(pathname)}');e.statusCode=404;return {error:e}})` : ''}`
   }
 
   public getPageScripts() {
-    const { staticMarkup, __NEXT_DATA__ } = this.context._documentProps;
-    const { page, pathname, buildId, assetPrefix } = __NEXT_DATA__;
+    const { staticMarkup, assetPrefix, __NEXT_DATA__ } = this.context._documentProps;
+    const { page, pathname, buildId } = __NEXT_DATA__;
 
     const scripts: ScriptEntry[] = [];
     const pagePathname = getPagePathname(pathname);
-    const appJsScript = `${assetPrefix}/_next/${buildId}/page/_app.js`;
-    const errorJsScript = `${assetPrefix}/_next/${buildId}/page/_error.js`;
-    const pageJsScript = `${assetPrefix}/_next/${buildId}/page${pagePathname}`;
+    const appJsScript = `${assetPrefix}/_next/static/${buildId}/pages/_app.js`;
+    const errorJsScript = `${assetPrefix}/_next/static/${buildId}/pages/_error.js`;
+    const pageJsScript = `${assetPrefix}/_next/static/${buildId}/pages${pagePathname}`;
 
     // order matters.
     if (page !== '/_error') {
@@ -154,11 +128,6 @@ export class NextScript extends React.Component<NextScriptProps> {
     const { nonce, allowUserMonitoring, minify, useFeatureDetection, features, preLoadScripts, postLoadScripts } = this.props;
 
     const mapSerialize = (s: ScriptEntry) => {
-      // const src = `src: '${s.src}'`;
-      // const isAsync = s.async ? `async: ${s.async}` : undefined;
-      // const nonce = s.nonce ? `nonce: '${s.nonce}'` : undefined;
-      // const id = s.id ? `id: '${s.id}'` : undefined;
-      // return `{ ${[src, async: isAsync, nonce, id].filter(Boolean).join(', ')} }`;
       const entry = {
         src: s.src,
         async: s.async || undefined,
@@ -191,7 +160,7 @@ export class NextScript extends React.Component<NextScriptProps> {
   }
 
   public render() {
-    const { staticMarkup } = this.context._documentProps;
+    const { staticMarkup, assetPrefix, devFiles } = this.context._documentProps;
     const { nonce } = this.props;
     const scripts = this.getPageScripts();
     const loaderScript = this.requiresPreloading()
@@ -200,9 +169,10 @@ export class NextScript extends React.Component<NextScriptProps> {
 
     return (
       <React.Fragment>
+        {devFiles ? devFiles.map((file: string) => <script key={file} src={`${assetPrefix}/_next/${file}`} nonce={nonce} />) : null}
         {staticMarkup
           ? null
-          : <script id="__next-data" nonce={nonce} dangerouslySetInnerHTML={{ __html: this.getNextDataScript() }} />}
+          : <script id="__next-data" nonce={nonce} dangerouslySetInnerHTML={{ __html: NextScript.getInlineScriptSource(this.context._documentProps) }} />}
 
         {loaderScript && <script id="__next-preloader" nonce={nonce} dangerouslySetInnerHTML={{ __html: loaderScript }} />}
 

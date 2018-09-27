@@ -3,7 +3,6 @@
     "outDir": "dist/lib",
     "declarationDir": "dist/types",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "module": "esnext",
     "target": "esnext",
     "lib": [
@@ -18,9 +17,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "allowUnreachableCode": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,
