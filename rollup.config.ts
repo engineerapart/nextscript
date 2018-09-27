@@ -6,8 +6,6 @@ import typescript from 'rollup-plugin-typescript2';
 
 const pkg = require('./package.json'); // tslint:disable-line no-var-requires
 
-// This is how to do this the right way:
-// https://github.com/bvaughn/react-window/blob/master/rollup.config.js
 const input = 'src/index.ts';
 const external = ['react', 'terser', 'prop-types', 'htmlescape'];
 const watch = { include: 'src/**' };
