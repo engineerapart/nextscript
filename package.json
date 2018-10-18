@@ -1,6 +1,6 @@
 {
   "name": "@engineerapart/nextscript",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A custom Next script loader for Next.js. Replaces the built-in NextScript component and allows you to apply polyfill pre-loading and business logic.",
   "main": "dist/nextscript.cjs.js",
   "module": "dist/nextscript.esm.js",
@@ -78,7 +78,7 @@
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
