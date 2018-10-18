@@ -50,7 +50,7 @@ export class NextScript extends React.Component<NextScriptProps> {
     _documentProps: PropTypes.any,
   };
 
-  public static defaultProps = {
+  public static defaultProps: NextScriptProps = {
     allowUserMonitoring: true,
     minify: true,
     preLoadScripts: [],
@@ -93,24 +93,24 @@ export class NextScript extends React.Component<NextScriptProps> {
 
   public static getInlineScriptSource(documentProps: any) {
     const { __NEXT_DATA__ } = documentProps;
-    const { page, pathname } = __NEXT_DATA__;
+    // const { page } = __NEXT_DATA__;
     // tslint:disable-next-line
-    return `__NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)};__NEXT_LOADED_PAGES__=[];__NEXT_REGISTER_PAGE=function(r,f){__NEXT_LOADED_PAGES__.push([r, f])}${page === '/_error' ? `;__NEXT_REGISTER_PAGE(${htmlescape(pathname)},function(){var e = new Error('Page does not exist: ${htmlescape(pathname)}');e.statusCode=404;return {error:e}})` : ''}`
+    return `__NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)};__NEXT_LOADED_PAGES__=[];__NEXT_REGISTER_PAGE=function(r,f){__NEXT_LOADED_PAGES__.push([r, f])}`
   }
 
   public getPageScripts() {
     const { staticMarkup, assetPrefix, __NEXT_DATA__ } = this.context._documentProps;
-    const { page, pathname, buildId } = __NEXT_DATA__;
+    const { page, buildId } = __NEXT_DATA__;
 
     const scripts: ScriptEntry[] = [];
-    const pagePathname = getPagePathname(pathname);
+    const pagePathname = getPagePathname(page);
     const appJsScript = `${assetPrefix}/_next/static/${buildId}/pages/_app.js`;
     const errorJsScript = `${assetPrefix}/_next/static/${buildId}/pages/_error.js`;
     const pageJsScript = `${assetPrefix}/_next/static/${buildId}/pages${pagePathname}`;
 
     // order matters.
     if (page !== '/_error') {
-      scripts.push({ src: pageJsScript, async: true, nonce: this.props.nonce, id: `__NEXT_PAGE__${pathname}` });
+      scripts.push({ src: pageJsScript, async: true, nonce: this.props.nonce, id: `__NEXT_PAGE__${page}` });
     }
     scripts.push({ src: appJsScript, async: true, nonce: this.props.nonce, id: `__NEXT_PAGE__/_app` });
     scripts.push({ src: errorJsScript, async: true, nonce: this.props.nonce, id: `__NEXT_PAGE__/_error` });
@@ -190,10 +190,10 @@ export class NextScript extends React.Component<NextScriptProps> {
   }
 }
 
-function getPagePathname(pathname: string) {
-  if (pathname === '/') {
+function getPagePathname(page: string) {
+  if (page === '/') {
     return '/index.js';
   }
 
-  return `${pathname}.js`;
+  return `${page}.js`;
 }
