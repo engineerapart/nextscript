@@ -59,4 +59,8 @@ export const FeaturePolyfills = {
     test: `('requestAnimationFrame' in window)`,
     feature: 'requestAnimationFrame',
   },
+  INTL: {
+    test: `('Intl' in window)`,
+    feature: 'Intl',
+  },
 };
