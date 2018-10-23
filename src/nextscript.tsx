@@ -95,7 +95,7 @@ export class NextScript extends React.Component<NextScriptProps> {
     const { __NEXT_DATA__ } = documentProps;
     // const { page } = __NEXT_DATA__;
     // tslint:disable-next-line
-    return `__NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)};__NEXT_LOADED_PAGES__=[];__NEXT_REGISTER_PAGE=function(r,f){__NEXT_LOADED_PAGES__.push([r, f])}`
+    return `__NEXT_DATA__ = ${htmlescape(__NEXT_DATA__)};__NEXT_LOADED_PAGES__=[];__NEXT_REGISTER_PAGE=function(r,f){__NEXT_LOADED_PAGES__.push([r, f])};`
   }
 
   public getPageScripts() {
