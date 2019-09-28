@@ -1,3 +1,3 @@
-export { NextScript, NextScriptProps } from './nextscript';
-export { FeaturePolyfills, PolyfillDefinition } from './feature-list';
-export { ScriptEntry } from './feature-detect';
+export { NextScript } from './nextscript';
+export { FeaturePolyfills } from './feature-list';
+export * from './interfaces';

@@ -1,23 +1,8 @@
 // tslint:disable max-line-length
-import { PolyfillDefinition } from './feature-list';
+import { FeatureDetectProps, PolyfillDefinition } from './interfaces';
 
 // Required features
 // https://polyfill.io/v2/docs/api
-
-export interface ScriptEntry {
-  src: string;
-  nonce?: string;
-  id?: string;
-  async?: boolean;
-}
-
-export interface FeatureDetectProps {
-  scripts: string;
-  allowUserMonitoring?: boolean;
-  minify?: boolean;
-  useFeatureDetection?: boolean;
-  features?: PolyfillDefinition[];
-}
 
 export const generateFeatureChecks = (features: PolyfillDefinition[] = []) => {
   return features.map((item) => {
@@ -30,7 +15,7 @@ export const generateFeatureChecks = (features: PolyfillDefinition[] = []) => {
 
 export const featureDetect = ({ scripts, minify = true, allowUserMonitoring = true, useFeatureDetection = true, features = [] }: FeatureDetectProps) => {
   const flags = `gated${useFeatureDetection ? ',always' : ''}`;
-  const ua = useFeatureDetection ? '&ua=chrome/69.0.0' : ''; // latest chrome.
+  const ua = useFeatureDetection ? '&ua=chrome/76.0.0' : ''; // latest chrome.
 
   return `
   var _nextscript_feats = [];

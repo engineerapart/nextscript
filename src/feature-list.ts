@@ -1,8 +1,3 @@
-export interface PolyfillDefinition {
-  test: string | null;
-  feature: string;
-}
-
 export const FeaturePolyfills = {
   /* These are the pre-configured groups offered by Polyfill.io */
   DEFAULT: {
