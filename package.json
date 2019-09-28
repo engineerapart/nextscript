@@ -15,7 +15,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "prepublish": "yarn build && npm version patch"
   },
   "repository": {
     "type": "git",
@@ -37,10 +38,9 @@
   },
   "homepage": "https://github.com/engineerapart/nextscript#readme",
   "dependencies": {
-    "htmlescape": "^1.1.1",
-    "prop-types": "^15.6.2",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "terser": "^3.8.2"
   },
   "devDependencies": {
