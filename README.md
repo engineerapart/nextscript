@@ -6,8 +6,12 @@
 # Version Notice
 * For Next <= v6, please use nextscript@~0.0.8
 * For Next >= 7, please use nextscript@^1.0.0
+* For Next 8 & 9, please use nextscript@^2.0.0
+* For Next >= 9.0.3 and above, if using experimental module support for modern browsers, **this package is not needed** (see: [9.0.3 release notes](https://github.com/zeit/next.js/releases/tag/v9.0.3)). This is due to the fact that all polyfills offered by polyfill.io are already supported by modern browsers.
 
-Next completely changes the way webpack is used in version 7, which creates incompatible changes in this implementation.
+In each new version of Next there are incompatible changes with the prior versions. This component was always a stepping stone to a more permanent solution, which the Next.js team are now working on in the [Module/Nomodule RFC](https://github.com/zeit/next.js/issues/7563) and the [corresponding initial merge request](https://github.com/zeit/next.js/pull/7704) that went into Next.js 9.0.3.
+
+Once that feature is enabled by default, this component will be deprecated.
 
 # NextScript 💠
 

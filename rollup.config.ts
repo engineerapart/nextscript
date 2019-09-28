@@ -7,7 +7,7 @@ import typescript from 'rollup-plugin-typescript2';
 const pkg = require('./package.json'); // tslint:disable-line no-var-requires
 
 const input = 'src/index.ts';
-const external = ['react', 'terser', 'prop-types', 'htmlescape'];
+const external = ['react', 'react-dom', 'terser', 'prop-types'];
 const watch = { include: 'src/**' };
 
 export default [{
@@ -24,7 +24,7 @@ export default [{
     // https://github.com/rollup/rollup-plugin-node-resolve#usage
     resolve(),
     // Compile TypeScript files
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript(),
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
     commonjs(),
     // uglify
@@ -46,7 +46,7 @@ export default [{
     // https://github.com/rollup/rollup-plugin-node-resolve#usage
     resolve(),
     // Compile TypeScript files
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript(),
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
     commonjs(),
     // uglify
